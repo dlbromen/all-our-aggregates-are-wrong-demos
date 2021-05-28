@@ -32,13 +32,13 @@ namespace Sales.ViewModelComposition
             await vm.RaiseEvent(new AddItemToCartRequested()
             {
                 CartId = request.Cookies["cart-id"],
-                RequestId = request.Headers.GetComposedRequestId(),
+                RequestId = request.GetCompositionContext().RequestId,
                 RequestData = requestData
             });
 
             await messageSession.SendLocal(new AddToCartRequest()
             {
-                RequestId = request.Headers.GetComposedRequestId(),
+                RequestId = request.GetCompositionContext().RequestId,
                 CartId = new Guid(request.Cookies["cart-id"]),
                 RequestData = requestData });
         }
